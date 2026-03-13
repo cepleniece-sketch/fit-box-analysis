@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIT BOX — Konkurentu analīze</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f3; color: #1a1a18; line-height: 1.6; }
+.page { max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem; }
+.header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid #e0dfd8; }
+.header-top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 8px; }
+.brand { font-size: 22px; font-weight: 500; color: #1a1a18; }
+.brand span { color: #1D9E75; }
+.date { font-size: 12px; color: #888780; }
+.subtitle { font-size: 14px; color: #5f5e5a; }
+.section-label { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #888780; margin-bottom: 12px; }
+.card { background: #fff; border: 0.5px solid #d3d1c7; border-radius: 12px; padding: 1.25rem; }
+.badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 6px; }
+.badge-lv { background: #E1F5EE; color: #0F6E56; }
+.badge-ee { background: #E6F1FB; color: #185FA5; }
+.badge-all { background: #EEEDFE; color: #534AB7; }
+.metric-card { background: #f1efe8; border-radius: 8px; padding: 0.875rem 1rem; }
+.metric-label { font-size: 12px; color: #5f5e5a; margin-bottom: 4px; }
+.metric-value { font-size: 22px; font-weight: 500; color: #1a1a18; }
+.score-bar-wrap { height: 5px; background: #e0dfd8; border-radius: 3px; margin-top: 4px; }
+.score-bar { height: 5px; border-radius: 3px; }
+.tab-btn { background: transparent; border: 0.5px solid #d3d1c7; border-radius: 8px; padding: 6px 14px; font-size: 13px; cursor: pointer; color: #5f5e5a; font-family: inherit; transition: background 0.15s; }
+.tab-btn.active { background: #f1efe8; color: #1a1a18; border-color: #b4b2a9; font-weight: 500; }
+.tab-btn:hover { background: #f1efe8; }
+.competitor-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+.competitor-name { font-size: 17px; font-weight: 500; }
+.price-tag { font-size: 13px; color: #5f5e5a; }
+.divider { border: none; border-top: 0.5px solid #e0dfd8; margin: 12px 0; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.field-label { font-size: 11px; color: #888780; margin-bottom: 3px; }
+.field-value { font-size: 13px; color: #1a1a18; line-height: 1.45; }
+.dot-pro::before { content: "+"; font-weight: 500; margin-right: 4px; color: #0F6E56; }
+.dot-con::before { content: "−"; font-weight: 500; margin-right: 4px; color: #993C1D; }
+table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+thead tr { border-bottom: 1px solid #d3d1c7; }
+th { text-align: left; padding: 10px 8px; color: #5f5e5a; font-weight: 500; }
+th.center { text-align: center; }
+td { padding: 9px 8px; color: #1a1a18; }
+td.center { text-align: center; }
+tr:nth-child(even) { background: #f9f9f7; }
+tr { border-bottom: 0.5px solid #e0dfd8; }
+.strategy-card { border-left: 3px solid; border-radius: 0 8px 8px 0; padding: 12px 16px; background: #f1efe8; margin-bottom: 10px; }
+.strategy-num { font-size: 11px; font-weight: 500; margin-bottom: 4px; }
+.strategy-title { font-size: 14px; font-weight: 500; color: #1a1a18; margin-bottom: 4px; }
+.strategy-desc { font-size: 13px; color: #444441; line-height: 1.55; }
+.tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+.section { display: none; }
+.section.active { display: block; }
+.grid-metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
+.grid-competitors { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
+.mini-card { background: #fff; border: 0.5px solid #d3d1c7; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 6px; }
+.mini-card-row { display: flex; justify-content: space-between; align-items: center; }
+.mini-card-name { font-weight: 500; font-size: 14px; }
+.mini-card-desc { font-size: 12px; color: #5f5e5a; }
+.summary-box { margin-top: 1.5rem; padding: 1rem 1.25rem; background: #f1efe8; border-radius: 12px; }
+.summary-box-label { font-size: 12px; color: #5f5e5a; margin-bottom: 6px; font-weight: 500; }
+.summary-box-text { font-size: 13px; color: #1a1a18; line-height: 1.65; }
+.pro-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-top: 1.5rem; }
+.green { color: #0F6E56; }
+.red { color: #993C1D; }
+.purple { color: #534AB7; }
+.amber { color: #854F0B; }
+.coral { color: #993C1D; }
+@media (max-width: 600px) {
+  .grid-2 { grid-template-columns: 1fr; }
+  .competitor-header { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="header-top">
+      <div class="brand"><span>FIT BOX</span> — Konkurentu analīze</div>
+      <div class="date">Baltijas reģions · 2025</div>
+    </div>
+    <div class="subtitle">Veselīgu maltīšu piegādes tirgus — 5 galvenie konkurenti, salīdzinājums un stratēģiskie ieteikumi</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('overview')">Pārskats</button>
+    <button class="tab-btn" onclick="showTab('competitors')">Konkurenti</button>
+    <button class="tab-btn" onclick="showTab('comparison')">Salīdzinājums</button>
+    <button class="tab-btn" onclick="showTab('strategy')">Stratēģija</button>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div id="tab-overview" class="section active">
+    <p class="section-label">Tirgus konteksts — Baltijas reģions 2025</p>
+    <div class="grid-metrics">
+      <div class="metric-card"><div class="metric-label">Identificētie konkurenti</div><div class="metric-value">5</div></div>
+      <div class="metric-card"><div class="metric-label">FIT BOX cena/nedēļā</div><div class="metric-value">€89+</div></div>
+      <div class="metric-card"><div class="metric-label">Tirgus segments</div><div class="metric-value" style="font-size:16px;">Premium</div></div>
+      <div class="metric-card"><div class="metric-label">Galvenais tirgus</div><div class="metric-value" style="font-size:16px;">LV · EE · LT</div></div>
+    </div>
+
+    <p class="section-label">Konkurentu atrašanās vieta un pārklājums</p>
+    <div class="grid-competitors">
+      <div class="mini-card"><div class="mini-card-row"><span class="mini-card-name">MealPrep</span><span class="badge badge-all">LV · EE · LT</span></div><div class="mini-card-desc">No €16/dienā · 4–6 maltītes dienā</div></div>
+      <div class="mini-card"><div class="mini-card-row"><span class="mini-card-name">HealthyBox</span><span class="badge badge-lv">Latvija</span></div><div class="mini-card-desc">Rīga · Svaigi produkti no zemniekiem</div></div>
+      <div class="mini-card"><div class="mini-card-row"><span class="mini-card-name">SmartFOOD</span><span class="badge badge-ee">Igaunija</span></div><div class="mini-card-desc">Tallina · 5 maltītes/dienā · Sous Vide</div></div>
+      <div class="mini-card"><div class="mini-card-row"><span class="mini-card-name">HealthyFood.ee</span><span class="badge badge-ee">Igaunija</span></div><div class="mini-card-desc">Tallina · No €26/dienā · Slim/Muscle</div></div>
+      <div class="mini-card"><div class="mini-card-row"><span class="mini-card-name">fresh.club</span><span class="badge badge-lv">Latvija</span></div><div class="mini-card-desc">Rīga · No €4,40/maltītei · AI personalizācija</div></div>
+    </div>
+
+    <p class="section-label">Personalizācijas līmenis salīdzinājumā</p>
+    <div style="display:flex; flex-direction:column; gap:10px;">
+      <div><div style="display:flex; justify-content:space-between; margin-bottom:2px;"><span style="font-size:13px;">FIT BOX (mērķis)</span><span style="font-size:12px; color:#5f5e5a;">Augsts</span></div><div class="score-bar-wrap"><div class="score-bar" style="width:95%; background:#1D9E75;"></div></div></div>
+      <div><div style="display:flex; justify-content:space-between; margin-bottom:2px;"><span style="font-size:13px;">fresh.club</span><span style="font-size:12px; color:#5f5e5a;">Augsts</span></div><div class="score-bar-wrap"><div class="score-bar" style="width:88%; background:#5DCAA5;"></div></div></div>
+      <div><div style="display:flex; justify-content:space-between; margin-bottom:2px;"><span style="font-size:13px;">MealPrep</span><span style="font-size:12px; color:#5f5e5a;">Vidējs</span></div><div class="score-bar-wrap"><div class="score-bar" style="width:58%; background:#7F77DD;"></div></div></div>
+      <div><div style="display:flex; justify-content:space-between; margin-bottom:2px;"><span style="font-size:13px;">SmartFOOD</span><span style="font-size:12px; color:#5f5e5a;">Vidējs</span></div><div class="score-bar-wrap"><div class="score-bar" style="width:52%; background:#7F77DD;"></div></div></div>
+      <div><div style="display:flex; justify-content:space-between; margin-bottom:2px;"><span style="font-size:13px;">HealthyFood.ee</span><span style="font-size:12px; color:#5f5e5a;">Zems-vidējs</span></div><div class="score-bar-wrap"><div class="score-bar" style="width:40%; background:#888780;"></div></div></div>
+      <div><div style="display:flex; justify-content:space-between; margin-bottom:2px;"><span style="font-size:13px;">HealthyBox</span><span style="font-size:12px; color:#5f5e5a;">Zems</span></div><div class="score-bar-wrap"><div class="score-bar" style="width:25%; background:#b4b2a9;"></div></div></div>
+    </div>
+  </div>
+
+  <!-- COMPETITORS -->
+  <div id="tab-competitors" class="section">
+    <p class="section-label">Detalizēts konkurentu profils</p>
+    <div style="display:flex; flex-direction:column; gap:14px;">
+
+      <div class="card">
+        <div class="competitor-header"><div><div class="competitor-name">MealPrep Global</div><div class="price-tag">No €16/dienā · ~€80–100+/nedēļā</div></div><span class="badge badge-all">LV · EE · LT</span></div>
+        <div class="grid-2">
+          <div><div class="field-label">Produktu piedāvājums</div><div class="field-value">4–6 maltītes dienā, kaloriju bāzes paketes, ikmēneša plāni</div></div>
+          <div><div class="field-label">Personalizācija</div><div class="field-value">Kaloriju kalkulators, diētas opcijas, daudzums pēc plāna</div></div>
+          <div><div class="field-label">Piegāde</div><div class="field-value">Katru dienu 6:00–10:00 vai 19:00–22:00 Baltijā</div></div>
+          <div><div class="field-label">Mērķauditorija</div><div class="field-value">Plašs loks — aktīvie, svaru zaudēt gribošie</div></div>
+        </div>
+        <hr class="divider">
+        <div class="grid-2">
+          <div><div class="field-label green">Priekšrocības</div><div style="font-size:13px; line-height:1.7;"><span class="dot-pro"></span>Reģionāls pārklājums visā Baltijā<br><span class="dot-pro"></span>Elastīgi termiņi (1 diena – 1 mēnesis)<br><span class="dot-pro"></span>Bezmaksas piegāde virs noteiktas summas</div></div>
+          <div><div class="field-label red">Trūkumi</div><div style="font-size:13px; line-height:1.7;"><span class="dot-con"></span>Personalizācija virsmas līmenī<br><span class="dot-con"></span>Nav uztura konsultanta atbalsta<br><span class="dot-con"></span>Mazāka fokusēšanās uz profesionāļiem</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="competitor-header"><div><div class="competitor-name">HealthyBox.lv</div><div class="price-tag">Cena — nav publiski publicēta; vidējs segments</div></div><span class="badge badge-lv">Latvija</span></div>
+        <div class="grid-2">
+          <div><div class="field-label">Produktu piedāvājums</div><div class="field-value">Gatavi ēdieni uz mājām vai ofisu, bez cukura/krāsvielām</div></div>
+          <div><div class="field-label">Personalizācija</div><div class="field-value">Ierobežota — izvēlne bez individuālas pielāgošanas</div></div>
+          <div><div class="field-label">Piegāde</div><div class="field-value">Rīgas robežās uz mājām un ofisu</div></div>
+          <div><div class="field-label">Mērķauditorija</div><div class="field-value">Veselīgo dzīvesveidu meklējošie Rīgā</div></div>
+        </div>
+        <hr class="divider">
+        <div class="grid-2">
+          <div><div class="field-label green">Priekšrocības</div><div style="font-size:13px; line-height:1.7;"><span class="dot-pro"></span>Vietēji zemnieku produkti (Iecava)<br><span class="dot-pro"></span>Bez E-vielām, bez cukura<br><span class="dot-pro"></span>Latvijas origins — uzticamība</div></div>
+          <div><div class="field-label red">Trūkumi</div><div style="font-size:13px; line-height:1.7;"><span class="dot-con"></span>Nav uztura mērķu pielāgošanas<br><span class="dot-con"></span>Ierobežots ģeogrāfiskais pārklājums<br><span class="dot-con"></span>Neskaidra cenu struktūra</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="competitor-header"><div><div class="competitor-name">SmartFOOD.ee</div><div class="price-tag">Aptuveni €20–25/dienā · Tallina</div></div><span class="badge badge-ee">Igaunija</span></div>
+        <div class="grid-2">
+          <div><div class="field-label">Produktu piedāvājums</div><div class="field-value">5 maltītes dienā (brokastis, smūtijs, pusdienas, uzkoda, vakariņas), Sous Vide tehnoloģija</div></div>
+          <div><div class="field-label">Personalizācija</div><div class="field-value">Bez gaļas, bez zivīm, bezlaktozes opcijas; atpūtas dienu sistēma</div></div>
+          <div><div class="field-label">Piegāde</div><div class="field-value">Katru rītu ar kurjeru uz mājām/ofisu Tallinā, bezmaksas</div></div>
+          <div><div class="field-label">Mērķauditorija</div><div class="field-value">Aizņemtie profesionāļi, sportisti, svara kontroles meklētāji</div></div>
+        </div>
+        <hr class="divider">
+        <div class="grid-2">
+          <div><div class="field-label green">Priekšrocības</div><div style="font-size:13px; line-height:1.7;"><span class="dot-pro"></span>Sous Vide — augsta kvalitāte<br><span class="dot-pro"></span>5 maltītes = pilna dienas kontrole<br><span class="dot-pro"></span>Bioloģiski noārdāms iepakojums<br><span class="dot-pro"></span>Brīvdienu pauzes iespēja</div></div>
+          <div><div class="field-label red">Trūkumi</div><div style="font-size:13px; line-height:1.7;"><span class="dot-con"></span>Tikai Tallina<br><span class="dot-con"></span>Nav specializētu mērķu (keto utt.)<br><span class="dot-con"></span>Nav uztura konsultanta</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="competitor-header"><div><div class="competitor-name">HealthyFood.ee</div><div class="price-tag">No €26/dienā Muscle plāns · biznesa pusdienas €39.95/nedēļā</div></div><span class="badge badge-ee">Igaunija</span></div>
+        <div class="grid-2">
+          <div><div class="field-label">Produktu piedāvājums</div><div class="field-value">Slim / Balance / Muscle programmas + biznesa pusdienas ofisiem</div></div>
+          <div><div class="field-label">Personalizācija</div><div class="field-value">3 programmas pēc kaloriju vajadzības; alerģiju izslēgšana pēc pieprasījuma</div></div>
+          <div><div class="field-label">Piegāde</div><div class="field-value">Tallina un tuvā apkārtne; biznesa piegāde no 12:00</div></div>
+          <div><div class="field-label">Mērķauditorija</div><div class="field-value">Aizņemtie profesionāļi, uzņēmumi, sportisti</div></div>
+        </div>
+        <hr class="divider">
+        <div class="grid-2">
+          <div><div class="field-label green">Priekšrocības</div><div style="font-size:13px; line-height:1.7;"><span class="dot-pro"></span>B2B piedāvājums uzņēmumiem<br><span class="dot-pro"></span>Ārstu ieteikts (uztura speciālisti)<br><span class="dot-pro"></span>Izmēģinājuma diena pieejama</div></div>
+          <div><div class="field-label red">Trūkumi</div><div style="font-size:13px; line-height:1.7;"><span class="dot-con"></span>Tikai Tallina<br><span class="dot-con"></span>Ierobežotas diētas opcijas<br><span class="dot-con"></span>Nav keto/vegāna programmu</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="competitor-header"><div><div class="competitor-name">fresh.club</div><div class="price-tag">No €4,40/maltītei (iepazīšanās cena) · Premium segments</div></div><span class="badge badge-lv">Latvija</span></div>
+        <div class="grid-2">
+          <div><div class="field-label">Produktu piedāvājums</div><div class="field-value">AI personalizētas premium maltītes; svara zaudēšana un muskuļu masa</div></div>
+          <div><div class="field-label">Personalizācija</div><div class="field-value">Automātiska ēdienu korekcija pēc mērķu izmaiņām; piegādes laika/adreses maiņa ar klikšķi</div></div>
+          <div><div class="field-label">Piegāde</div><div class="field-value">Rīga un apkārtne; rīts vai vakars; bioloģiski noārdāms iepakojums</div></div>
+          <div><div class="field-label">Mērķauditorija</div><div class="field-value">Premium segments — sportisti, profesionāļi, veselīgā dzīvesveida piekritēji</div></div>
+        </div>
+        <hr class="divider">
+        <div class="grid-2">
+          <div><div class="field-label green">Priekšrocības</div><div style="font-size:13px; line-height:1.7;"><span class="dot-pro"></span>Food-tech jaunuzņēmums ar tech komandu<br><span class="dot-pro"></span>Augsta personalizācija (AI bāzēta)<br><span class="dot-pro"></span>Eco iepakojums, bezatkritumu politika<br><span class="dot-pro"></span>Slavenību/sportistu atsauksmes (NHL)</div></div>
+          <div><div class="field-label red">Trūkumi</div><div style="font-size:13px; line-height:1.7;"><span class="dot-con"></span>Jauns spēlētājs — zema atpazīstamība<br><span class="dot-con"></span>Tikai Rīga pagaidām<br><span class="dot-con"></span>Tiešs FIT BOX konkurents personalizācijā</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- COMPARISON -->
+  <div id="tab-comparison" class="section">
+    <p class="section-label">Salīdzinošā tabula</p>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:16%;">Kritērijs</th>
+            <th class="center" style="color:#0F6E56; width:14%;">FIT BOX</th>
+            <th class="center" style="width:14%;">MealPrep</th>
+            <th class="center" style="width:14%;">HealthyBox</th>
+            <th class="center" style="width:14%;">SmartFOOD</th>
+            <th class="center" style="width:14%;">HealthyFood</th>
+            <th class="center" style="width:14%;">fresh.club</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Cena/nedēļā</td><td class="center green" style="font-weight:500;">€89+</td><td class="center">~€80–112</td><td class="center">Nav publiski</td><td class="center">~€100–125</td><td class="center">~€130+</td><td class="center">~€22+/d</td></tr>
+          <tr><td>Maltītes/dienā</td><td class="center green" style="font-weight:500;">3</td><td class="center">4–6</td><td class="center">2–3</td><td class="center">5</td><td class="center">3–5</td><td class="center">3</td></tr>
+          <tr><td>Personalizācija</td><td class="center green" style="font-weight:500;">Augsta</td><td class="center">Vidēja</td><td class="center">Zema</td><td class="center">Vidēja</td><td class="center">Zema-vid.</td><td class="center">Augsta</td></tr>
+          <tr><td>Uztura konsult.</td><td class="center green" style="font-weight:500;">Jā</td><td class="center red">Nē</td><td class="center red">Nē</td><td class="center red">Nē</td><td class="center red">Nē</td><td class="center" style="color:#854F0B;">Daļēji</td></tr>
+          <tr><td>Mērķi (svars, masa)</td><td class="center green" style="font-weight:500;">Jā ×3</td><td class="center" style="color:#854F0B;">Daļēji</td><td class="center red">Nē</td><td class="center red">Nē</td><td class="center green">Jā ×3</td><td class="center green">Jā</td></tr>
+          <tr><td>Keto/vegāns/GF</td><td class="center green" style="font-weight:500;">Jā</td><td class="center" style="color:#854F0B;">Daļēji</td><td class="center" style="color:#854F0B;">Daļēji</td><td class="center" style="color:#854F0B;">Daļēji</td><td class="center red">Nē</td><td class="center" style="color:#854F0B;">Daļēji</td></tr>
+          <tr><td>Piegāde ģeogrāfiski</td><td class="center green" style="font-weight:500;">Latvija</td><td class="center green">Baltija</td><td class="center red">Rīga</td><td class="center red">Tallina</td><td class="center red">Tallina</td><td class="center red">Rīga</td></tr>
+          <tr><td>Piegāde pirms 7:00</td><td class="center green" style="font-weight:500;">Jā</td><td class="center">6–10</td><td class="center red">Nav norādīts</td><td class="center green">Rīts</td><td class="center">No 12:00</td><td class="center green">Vakars/rīts</td></tr>
+          <tr><td>Mērķauditorija</td><td class="center green" style="font-weight:500;">Profesionāļi</td><td class="center">Plašs loks</td><td class="center">Veselīgie</td><td class="center">Profesionāļi</td><td class="center">B2B+B2C</td><td class="center">Premium</td></tr>
+          <tr><td>Tirgus pozīcija</td><td class="center green" style="font-weight:500;">Premium</td><td class="center">Vidējs</td><td class="center">Vidējs</td><td class="center">Premium</td><td class="center">Vidējs+</td><td class="center">Premium</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pro-grid">
+      <div class="metric-card"><div class="metric-label">Unikāla kombinācija</div><div style="font-size:13px; font-weight:500; color:#1a1a18; margin-top:4px;">Personalizācija + Konsultācija + Rīta piegāde</div></div>
+      <div class="metric-card"><div class="metric-label">Specifiskā niša</div><div style="font-size:13px; font-weight:500; color:#1a1a18; margin-top:4px;">Aizņemtie profesionāļi 25–45 g. fokusēti</div></div>
+      <div class="metric-card"><div class="metric-label">Onboarding ātrums</div><div style="font-size:13px; font-weight:500; color:#1a1a18; margin-top:4px;">Personalizēts piedāvājums 10 min. laikā</div></div>
+    </div>
+  </div>
+
+  <!-- STRATEGY -->
+  <div id="tab-strategy" class="section">
+    <p class="section-label">5 stratēģiskie ieteikumi FIT BOX diferenciācijai</p>
+
+    <div class="strategy-card" style="border-left-color:#1D9E75;">
+      <div class="strategy-num green">01 — Spēcīgākā diferenciācija</div>
+      <div class="strategy-title">Korporatīvais B2B kanāls — ofiss kā piegādes punkts</div>
+      <div class="strategy-desc">HealthyFood.ee ir vienīgais, kas aktīvi strādā ar uzņēmumiem, taču tikai Tallinā un tikai pusdienu formātā. FIT BOX var ieiet Latvijas B2B tirgū ar "Power Week for Teams" — nedēļas plāni uzņēmumiem ar rēķina apmaksu. HR departamentiem tas ir motivācijas instruments, FIT BOX — stabils atkārtots ieņēmumu avots ar zemāku klientu iegūšanas izmaksu.</div>
+    </div>
+
+    <div class="strategy-card" style="border-left-color:#5DCAA5;">
+      <div class="strategy-num" style="color:#0F6E56;">02 — Tehniskā diferenciācija</div>
+      <div class="strategy-title">Uztura progresa izsekošana un mērķu atskaitīšanās</div>
+      <div class="strategy-desc">Neviens no Baltijas konkurentiem nepiedāvā personalizētu digitālo uztura izsekošanu. FIT BOX var ieviest ikmēneša "uztura progresa pārskatu" — klientam redzamas izmaiņas svara, enerģijas vai makronutrientu patēriņā. Tas palielina ilgtermiņa abonementu saglabāšanas rādītājus un padziļina saikni ar produktu ārpus fiziskās maltītes.</div>
+    </div>
+
+    <div class="strategy-card" style="border-left-color:#7F77DD;">
+      <div class="strategy-num purple">03 — Cenu stratēģija</div>
+      <div class="strategy-title">Iepazīšanās paketes un "Power Day" vienas dienas izmēģinājums</div>
+      <div class="strategy-desc">fresh.club piedāvā iepazīšanās cenu no €4,40, HealthyFood.ee — izmēģinājuma dienu. FIT BOX var ieviest "Power Day" — vienas dienas pilna pakete par ~€19–22, ļaujot potenciālajiem klientiem pieredzēt servisu pirms nedēļas saistībām. Konvertācija no izmēģinājuma uz abonementu ir viens no efektīvākajiem klientu iegūšanas ceļiem premium segmentā.</div>
+    </div>
+
+    <div class="strategy-card" style="border-left-color:#EF9F27;">
+      <div class="strategy-num amber">04 — Mārketinga pozicionēšana</div>
+      <div class="strategy-title">Produktivitātes naratīvs, nevis tikai "veselīgs ēdiens"</div>
+      <div class="strategy-desc">Aizņemtie profesionāļi 25–45 g. vecumā nereaģē uz "zaudē svaru" — viņi reaģē uz "sniedz labāk, domā skaidrāk, ietaupi 5 stundas nedēļā". Komunikācijā jāuzsver laika ieguvums, enerģija un produktivitāte. "Power Week" = jūsu personīgais uztura direktors × 5 darba dienas. Šis naratīvs atšķir FIT BOX no visiem pārējiem Baltijas spēlētājiem.</div>
+    </div>
+
+    <div class="strategy-card" style="border-left-color:#D85A30;">
+      <div class="strategy-num coral">05 — Reģionālā ekspansija</div>
+      <div class="strategy-title">Igaunijas un Lietuvas tirgus ienākšana, izmantojot B2B kā vektoru</div>
+      <div class="strategy-desc">MealPrep ir vienīgais, kas apkalpo visu Baltiju, taču personalizācijas ziņā ir vājš. FIT BOX var ienākt Tallinā un Viļņā ar fokusētu B2B stratēģiju — noslēdzot partnerības ar IT, fintech un konsultāciju uzņēmumiem. Korporatīvā piegāde ir zemāks risks salīdzinājumā ar B2C mērogošanu jaunā tirgū.</div>
+    </div>
+
+    <div class="summary-box">
+      <div class="summary-box-label">Secinājums</div>
+      <div class="summary-box-text">FIT BOX ieņem unikālu pozīciju Baltijas tirgū — tā ir vienīgā kombinācija, kas apvieno personalizāciju, uztura konsultāciju un rīta piegādi pirms 7:00 vienā pakalpojumā. Tiešākie konkurenti personalizācijā (fresh.club) un mērķauditorijā (SmartFOOD) nav klāt Latvijā korporatīvajā līmenī. Galvenā iespēja: B2B kanāls + produktivitātes naratīvs + Baltijas ekspansija.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    if (b.getAttribute('onclick').includes(name)) b.classList.add('active');
+  });
+}
+</script>
+</body>
+</html>
